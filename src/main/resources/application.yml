@@ -1,0 +1,11 @@
+spring:
+  mustache:
+    cache: false
+    suffix: .hbs
+  data:
+    mongodb:
+      port: 0
+    rest:
+      base-path: /api
+management:
+  context-path: /admin
