@@ -1,8 +1,10 @@
-.idea
-out
-build
-.gradle
+/.idea/
+/out/
+/build/
+/.gradle/
 src/main/gen
 *.iml
 *.ipr
 *.iws
+*.log*
+.DS_Store

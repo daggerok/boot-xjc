@@ -1,17 +1,15 @@
-group 'daggerok'
-version '0.0.1'
-
 buildscript {
+    ext {
+        jaxbVersion = '2.2.7-b41'
+    }
     repositories {
-        jcenter()
         mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        maven { url 'https://plugins.gradle.org/m2/' }
+        jcenter()
     }
     dependencies {
-        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE')
-        classpath('gradle.plugin.org.openrepose:gradle-jaxb-plugin:2.2.3')
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE'
+        classpath 'gradle.plugin.org.openrepose:gradle-jaxb-plugin:2.2.3'
     }
 }
 
@@ -20,46 +18,51 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'org.openrepose.gradle.plugins.jaxb'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
+}
 
-jar { baseName = 'boot-xjc' }
+version = '0.0.1'
+group = 'daggerok'
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
-    jcenter()
     mavenCentral()
+    maven { url 'https://plugins.gradle.org/m2/' }
+    jcenter()
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-data-rest')
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-    compile('org.springframework.boot:spring-boot-starter-hateoas')
-    compile('org.springframework.boot:spring-boot-starter-mustache')
-    compile('org.springframework.boot:spring-boot-devtools')
-    compile('org.projectlombok:lombok')
-    compile('org.webjars:bootstrap:3.3.7-1')
-    compile('org.webjars:webjars-locator:0.32')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.5')
-    compile('org.springframework.boot:spring-boot-starter-ws')
-    compile('wsdl4j:wsdl4j:1.6.3')
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-data-rest'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compile 'org.springframework.boot:spring-boot-starter-hateoas'
+    compile 'org.springframework.boot:spring-boot-starter-mustache'
+    compile 'org.springframework.boot:spring-boot-devtools'
+    compile 'org.projectlombok:lombok'
+    compile 'org.webjars:bootstrap:3.3.7-1'
+    compile 'org.webjars:webjars-locator:0.32'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.5'
+    compile 'org.springframework.boot:spring-boot-starter-ws'
+    compile 'wsdl4j:wsdl4j:1.6.3'
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 
-    jaxb 'com.sun.xml.bind:jaxb-xjc:2.2.7-b41'
-    jaxb 'com.sun.xml.bind:jaxb-impl:2.2.7-b41'
+    jaxb "com.sun.xml.bind:jaxb-xjc:$jaxbVersion"
+    jaxb "com.sun.xml.bind:jaxb-impl:$jaxbVersion"
     jaxb 'javax.xml.bind:jaxb-api:2.2.7'
     jaxb 'org.jvnet.jaxb2_commons:jaxb2-basics-ant:0.6.5'
 }
 
 jaxb {
-    xsdDir = "${project.projectDir}/src/main/resources/schema"
-    bindingsDir = "${project.projectDir}/src/main/resources/schema"
+    xsdDir = "$project.projectDir/src/main/resources/schema"
+    bindingsDir = "$project.projectDir/src/main/resources/schema"
 
     xjc {
         generatePackage = "daggerok"
-        destinationDir = "${project.projectDir}/src/main/gen"
+        destinationDir = "$project.projectDir/src/main/gen"
     }
 }
 
@@ -73,5 +76,8 @@ sourceSets {
     }
 }
 
-build.dependsOn 'xjc'
-build.shouldRunAfter 'xjc'
+build.dependsOn xjc
+build.shouldRunAfter clean, xjc
+xjc.shouldRunAfter clean
+
+defaultTasks 'clean', 'build'

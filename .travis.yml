@@ -1,8 +1,15 @@
-group: edge
-dist: trusty
 language: java
 jdk: oraclejdk8
-script: ./gradlew clean xjc build
+
+addons:
+  apt:
+    update: true
+    packages:
+    - bash
+
+install: true
+script: ./gradlew -S
+
 before_cache:
   - curl -s https://get.sdkman.io | bash
   - sdk install gradle 3.1
