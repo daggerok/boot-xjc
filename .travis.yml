@@ -11,7 +11,7 @@ addons:
 
 install: true
 before_script:
-- sudo pip install httpie
+- sudo pip install httpie >/dev/null 2>&1
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 - stop_any 8080 80
 
