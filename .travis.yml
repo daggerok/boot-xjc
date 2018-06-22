@@ -6,9 +6,21 @@ addons:
     update: true
     packages:
     - bash
+    - curl
+    - python-pip
 
 install: true
-script: ./gradlew -S
+before_script:
+- sudo pip install httpie
+- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+- stop_any 8080 80
+
+script:
+- ./gradlew -S
+- bash build/libs/*.jar &
+- wait_for 8080
+- http :8080/v1/daggerok.wsdl
+- stop_any 8080
 
 before_cache:
 - rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
