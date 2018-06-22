@@ -2,7 +2,6 @@ boot-xjc [![build](https://travis-ci.org/daggerok/boot-xjc.svg?branch=master)](h
 ========
 
 ```bash
-git clone ...
-gradle build bootRun
+./gradlew build booRun
 open http://localhost:8080/v1/daggerok.wsdl
 ```
