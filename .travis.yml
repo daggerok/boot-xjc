@@ -16,7 +16,7 @@ before_script:
 - stop_any 8080 80
 
 script:
-- ./gradlew -S
+- ./gradlew -S >/dev/null
 - bash build/libs/*.jar &
 - wait_for 8080
 - http :8080/v1/daggerok.wsdl
