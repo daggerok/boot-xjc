@@ -11,10 +11,10 @@ install: true
 script: ./gradlew -S
 
 before_cache:
-  - curl -s https://get.sdkman.io | bash
-  - sdk install gradle 3.1
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-cache.directories:
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/wrapper/
+- rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+  - "$HOME/.m2"
+  - "$HOME/.gradle"
